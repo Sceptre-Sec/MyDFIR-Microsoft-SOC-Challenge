@@ -1,0 +1,7 @@
+SecurityEvent_CL
+| where EventID_s in ("4624", "4625")
+| summarize 
+    FailedLogons = countif(EventID_s == "4625"),
+    SuccessfulLogons = countif(EventID_s == "4624")
+  by Account_s
+| order by FailedLogons desc
