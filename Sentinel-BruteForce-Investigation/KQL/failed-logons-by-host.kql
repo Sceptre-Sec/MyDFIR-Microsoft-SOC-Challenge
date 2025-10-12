@@ -1,0 +1,4 @@
+SecurityEvent_CL
+| where EventID_s == "4625"
+| summarize FailedLogons = count() by Computer
+| order by FailedLogons desc
