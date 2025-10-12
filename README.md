@@ -20,12 +20,3 @@ This challenge is helping me to bridge the gap from offensive security thinking 
 | [Sentinel Brute Force Investigation](./Sentinel-BruteForce-Investigation/README.md) | Analysed a brute-force attack using KQL in Sentinel, created an incident, report and workbook dashboard. |
 
 ---
-
-
-## What This Repo Represents
-This is more than just notes — it’s a record of my learning process, my mistakes, and my wins along the way.  
-It shows how much you can achieve when curiosity meets structure and a great community.
-
----
-
-*Learning never stops — and with MyDFIR, it feels like we’re just getting started.*
