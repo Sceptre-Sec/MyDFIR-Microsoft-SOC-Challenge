@@ -1,0 +1,5 @@
+EmailEvents
+| where Timestamp > ago(7d)
+| where SenderFromAddress == "billing@marketplacebusiness.co.uk"
+| project Timestamp, RecipientEmailAddress, Subject, NetworkMessageId, DeliveryLocation, ThreatTypes
+| order by Timestamp desc
