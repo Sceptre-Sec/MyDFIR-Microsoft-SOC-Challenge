@@ -1,0 +1,4 @@
+| where Timestamp > ago(7d)
+| where Url contains "neon-lab.test"
+| project Timestamp, AccountUpn, Url, ActionType
+| order by Timestamp desc
