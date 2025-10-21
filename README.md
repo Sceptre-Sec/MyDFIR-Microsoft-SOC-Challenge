@@ -18,5 +18,5 @@ This challenge is helping me to bridge the gap from offensive security thinking 
 | Project | Description |
 |----------|-------------|
 | [Sentinel Brute Force Investigation](./Sentinel-BruteForce-Investigation/README.md) | Analysed a brute-force attack using KQL in Sentinel, created an incident, report and workbook dashboard. |
-
+| [Email Threat Investigation](./Email_Threat_Investigation/README.md) | Created a custom anti-phishing policy and used KQL to trace a simulated phishing campaign. |
 ---
