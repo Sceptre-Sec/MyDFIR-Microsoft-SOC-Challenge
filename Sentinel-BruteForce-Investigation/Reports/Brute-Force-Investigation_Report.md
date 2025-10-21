@@ -1,11 +1,7 @@
 # Brute-Force Investigation Report
 
-
-
 ## Investigation Summary – What Happened?
-I received an alert about multiple failed logins. Using KQL I answered the following: Which accounts are experiencing the most failed logons? Were there any successful logins for those accounts, if so, where? What would I recommend if this was a real client incident.
-
-After analysing the events in Microsoft Sentinel, the pattern clearly showed a brute-force attack using NTLM authentication against administrator accounts. No successful logons occurred. The attack was high volume against RDP-enabled systems.
+On 21 October 2025 at 14:10 BST, multiple failed authentication attempts were observed in Microsoft Sentinel targeting several administrator accounts via NTLM authentication. The pattern of repeated Event ID 4625s indicated a brute-force attack against RDP-enabled systems. No successful logons occurred during the time of interest.
 
 ---
 
