@@ -23,7 +23,7 @@ Added the test mailbox `bob@socialgore.onmicrosoft.com` under *Users, Groups and
 ## Step 3 – Configure phishing threshold and protection
 Set threshold to **Standard protection**, enabled **user impersonation** and **domain impersonation** checks.
 
-[Phishing Threshold Protection](../Screenshots/Phishing_Threshold_Protection.PNG)
+[Phishing Threshold Protection](../Screenshots/Phishing_Theshold_Protection.PNG)
 
 ---
 
