@@ -1,0 +1,35 @@
+KQL Query 1.  Confirm PowerShell Execution 
+
+DeviceProcessEvents
+| where Timestamp between (datetime(2025-10-27 15:50:00) .. datetime(2025-10-27 16:10:00))
+| where DeviceName contains "mydfir-sceptre" or AccountName contains "JennySmith"
+| where FileName in~ ("powershell.exe", "pwsh.exe")
+| where ProcessCommandLine has_any ("IEX", "DownloadString", "github", "atomic-red-team", "PowerSploit")
+| project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, FileName, ProcessCommandLine, FolderPath, ReportId
+| order by Timestamp asc
+
+KQL Query 2. Look for Mimikatz
+
+DeviceProcessEvents
+| where Timestamp between (datetime(2025-10-27 15:50:00) .. datetime(2025-10-27 16:20:00))
+| where DeviceName contains "mydfir-sceptre" or AccountName contains "JennySmith"
+| where ProcessCommandLine has_any ("Invoke-Mimikatz","Invoke-Mimikatz -DumpCreds","mimikatz","sekurlsa::logonpasswords","sekurlsa::minidump")
+| project Timestamp, DeviceName, AccountName, ProcessId, InitiatingProcessFileName, InitiatingProcessId, FileName, ProcessCommandLine, ReportId
+| order by Timestamp asc
+
+KQL Query 3. Look for Spread of the Powershell Activity
+
+DeviceProcessEvents
+| where Timestamp between (datetime(2025-10-27 15:50:00) .. datetime(2025-10-27 16:30:00))
+| where FileName in~ ("powershell.exe", "pwsh.exe")
+| where ProcessCommandLine has_any ("IEX", "DownloadString", "github", "atomic-red-team", "PowerSploit")
+| summarize DeviceCount=dcount(DeviceName), Devices=make_set(DeviceName) by ProcessCommandLine
+| order by DeviceCount desc
+
+KQL Query 4. Look for persistence 
+DeviceProcessEvents
+| where Timestamp between (datetime(2025-10-27 15:50:00) .. datetime(2025-10-27 16:20:00))
+| where DeviceName contains "mydfir-sceptre" or AccountName contains "jennysmith"
+| where ProcessCommandLine has_any ("schtasks", "reg add", "New-LocalUser", "net user", "net localgroup", "powershell.exe Set-ItemProperty", "Set-Service")
+| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, FolderPath, InitiatingProcessFileName
+| order by Timestamp asc
