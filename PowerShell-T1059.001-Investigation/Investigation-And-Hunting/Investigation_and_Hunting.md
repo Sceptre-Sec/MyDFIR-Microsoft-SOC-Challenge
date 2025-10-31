@@ -18,7 +18,7 @@ Before I looked at the alerts I had already prepared five questions that I wante
 
 ## The Process Tree – My Findings
 
-This part was a bit confusing at first because as shown in the screenshot, it looks like [pid 14920] powershell.exe launched [pid 8540] cmd.exe. But after checking the timestamps, I realised that [pid 14920] powershell.exe belonged to an earlier user session. The real chain of events was that [pid 8540] cmd.exe created [pid 12236] powershell.exe, which then used DownloadString with IEX (Invoke-Expression) to pull a script from GitHub and run it directly as PowerShell code. This confirmed that the root cause was an interactive PowerShell session started by Jenny’s remote login, not an automated task or background service. That was the point where the simulated attack really began.
+This part was a bit confusing at first because as shown in the screenshot, it looks like [pid 14920] powershell.exe launched [pid 8540] cmd.exe. But after checking the timestamps, I realised that [pid 14920] powershell.exe belonged to an earlier user session. The real chain of events was that [pid 8540] cmd.exe created [pid 12236] powershell.exe, which then used DownloadString with IEX (Invoke-Expression) to pull a script from GitHub and run it directly as PowerShell code. This confirmed that the root cause was an interactive PowerShell session started by Jenny’s remote login, not an automated task or background service. That was the point where the attack really began.
 
 [View Process Tree](Process-Tree.PNG)
 
@@ -79,7 +79,7 @@ I have listed the following 4 KQL queries here : [View KQL Queries](../KQL/KQL-Q
 
 ### KQL Query 1 – Confirm PowerShell Execution
 
-The KQL query on DeviceProcessEvents confirmed that at 16:05 BST, Jenny’s VM executed powershell.exe from cmd.exe using the IEX and DownloadString to pull a script from GitHub. This aligns exactly with the Defender alerts for suspicious PowerShell activity and validates that the simulated T1059.001 attack produced real telemetry.
+The KQL query on DeviceProcessEvents confirmed that at 16:05 BST, Jenny’s VM executed powershell.exe from cmd.exe using the IEX and DownloadString to pull a script from GitHub. This aligns exactly with the Defender alerts for suspicious PowerShell activity and validates that the T1059.001 attack produced real telemetry.
 
 [View KQL Query Results – Confirm PowerShell Execution](../KQL/KQL-Query-Confirm-Poweshell-Execution.PNG)
 
