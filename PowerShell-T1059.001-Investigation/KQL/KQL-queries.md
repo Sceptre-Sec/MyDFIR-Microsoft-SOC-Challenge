@@ -1,4 +1,4 @@
-# KQL queries template and examples
+# KQL Queries Template and Examples
 
 This file contains the KQL template I use for hunting in Defender for Endpoint and four example queries I ran during the T1059.001 investigation. Use this as a starting point and change the time window, device name and search terms to match your case.
 
@@ -68,13 +68,6 @@ DeviceProcessEvents
 | order by Timestamp asc
 ```
 
-## Tips and tweaks
-- If you need case insensitive matching use `in~` or `has` which are case insensitive by default for string literals.  
-- Use `take 100` or `limit` during development to avoid very large result sets.  
-- Use `summarize` and `make_set` to compact results when searching for spread.  
-- When pivoting to other tables, replace `DeviceProcessEvents` with `DeviceFileEvents` or `DeviceImageLoadEvents` and adjust filters to fileName, FolderPath or ImageLoaded.  
-- Save common queries as `.kql` files or hunting notebooks so you can rerun them quickly.
 
----
 
-Made by Sceptre — beginner SOC analyst tone. Save this file in `Investigation and hunting/KQL-queries.md` and edit the timestamps and device names for your next exercise.
+Made by Sceptre — beginner SOC analyst
