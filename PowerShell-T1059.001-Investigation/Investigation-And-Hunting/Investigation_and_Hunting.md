@@ -2,9 +2,13 @@
 
 I wanted to share how I approached this investigation, the steps I took, my thought process and what I learned throughout the analysis.
 
+I picked T1059.001 PowerShell Technique because powershell is mainly used by IT so seeing it run under a normal user like Jenny looks suspicious and is a good place for a beginner to start hunting.
+
+Lets Go.
+
 ## 5 Prepared Questions
 
-I had prepared five questions that I wanted to start my investigation:
+Before I looked at the alerts I had already prepared five questions that I wanted to start my investigation:
 
 1. What connects these alerts?
 2. Which alert came first?
@@ -69,7 +73,7 @@ C:\Windows\System32\cmd.exe /c powershell.exe IEX (New-Object Net.WebClient).Dow
 
 So far the Process Tree and Timeline have shown the story that started with a suspicious PowerShell command, then the process actually ran during Jenny’s RDP session, and finally it tried to execute Mimikatz to steal credentials but Defender stopped it. However I was keen to investigate the endpoints further and validate the alerts.
 
-I have listed all my KQL queries here : [View KQL Queries](../KQL/KQL-Queries.kql)
+I have listed the following 4 KQL queries here : [View KQL Queries](../KQL/KQL-Queries.kql)
 
 
 
@@ -98,6 +102,6 @@ The results showed that only one device ran the suspicious PowerShell command. T
 
 My persistence query came back with no results is because the Atomic Red Team simulation (T1059.001) was only designed to test PowerShell execution, not persistence. It launched a suspicious PowerShell command that Defender detected and blocked straight away, so it never went on to create any scheduled tasks or user accounts.
 
-## Conclusion
+## Final Note
 
-I really enjoyed this investigation and found it a great way to put what I have been learning into practice. Running the Atomic Red Team simulation and then hunting through Defender helped me understand how alerts link together and what they actually mean. I wanted to make the most of this challenge and keep improving my skills through the MyDFIR Skool and I am very grateful to Steven Mah for guiding us through it.
+I really enjoyed this investigation and found it a great way to put what I have been learning into practice. I tried to make the most of the challenge by treating it like a real attack instead of a simulation so that I could go further. I am developing my analyst skills through the MyDFIR Skool by Steven Mah.
