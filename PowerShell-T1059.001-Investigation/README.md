@@ -32,7 +32,3 @@ The short story of what happened:
 - Advanced Hunting confirmed the PowerShell execution event but did not return evidence that Invoke Mimikatz actually ran. That is because Defender blocked the payload before the inner script executed, so telemetry shows the attempted download and execution but not the inner malicious commands.
 - Spread checks showed only Jenny was involved. Persistence searches returned nothing because the Atomic test did not attempt persistence and Defender prevented follow up activity.
 
-
-
-
-Which of those would you like next?
