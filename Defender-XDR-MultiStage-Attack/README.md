@@ -69,7 +69,7 @@ She clicked it and the URL took her to **MisterFinanceLondon.com**, that's the p
 
 Jenny wasn’t compromised because her device was vulnerable — she had entered her password into a fake login page.
 
-**[Insert Email Phishing XDR Image]**
+![Incidents Screenshot](Images/email-phishing-xdr.PNG)  
 
 ---
 
@@ -91,8 +91,6 @@ FileRead: C:\Users\BobSmith\Documents\IT-Admin-Notes.txt
 FileCreated: C:\Windows\Temp\export.txt
 FileModified: C:\Windows\Temp\export.txt
 
-yaml
-Copy code
 
 - “FileAccessed” events  
 - “FileCreated” events  
