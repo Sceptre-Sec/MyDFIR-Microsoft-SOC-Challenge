@@ -19,31 +19,25 @@ I expected Defender XDR to connect the attack chain into one incident but it did
 
 ---
 
-Boom! My attack Kill chain has created a couple of incidents, one of them has a priority score of 100 so we better start with that one.
+My attack Kill chain has created a couple of incidents, one of them has a priority score of 100 so we better start with that one.
 
-**[Insert Incidents Image]**
+ ![Incidents Screenshot](Images/Incidents-Priority-100.PNG) 
 
 ---
 
 ## Suspicious Process Discovery
 
-I started with the first alert, Suspicious Process Discovery. When I checked the Incident Graph, the Process Tree, and the the Incident Timeline, I could see that something unusual happened on Jenny’s device on **25/11/25 14:26:38 UTC**.
+I started with the first alert, Suspicious Process Discovery. When I checked the Incident Graph, the Process Tree and the the Incident Timeline, I could see that something unusual happened on Jenny’s device on **25/11/25 14:26:38 UTC**.
 
 The alert showed that `cmd.exe` launched PowerShell and PowerShell was run with an **Unrestricted execution policy**, which is already a red flag.
 
 The commands Defender showed was:
 
-whoami
-hostname
-powershell -ExecutionPolicy Unrestricted -File script6.ps1
-Get-Process
-
-yaml
-Copy code
+whoami, hostname , powershell -ExecutionPolicy Unrestricted -File script6.ps1, Get-Process
 
 Seeing **whoami** and **hostname** told me the attacker was doing basic recon and checking out their environment.
 
-**[Insert Suspicious Process Discovery Image]**
+ ![Incidents Screenshot](Images/Suspicious-Process-Discovery.PNG)
 
 ---
 
@@ -53,7 +47,7 @@ The next Alert I look at was Process Memory Dump. When I checked the Timeline ar
 
 LSASS stores all the logged in passwords and tokens, so dumping it usually means someone is trying to steal credentials.
 
-**[Insert Process Memory Dump Image]**
+![Incidents Screenshot](Images/Process-Memory-Dump.PNG) 
 
 ---
 
@@ -63,7 +57,7 @@ I needed to check how the attacker actually got in so I went into **Entra ID** a
 
 There was a bunch of failed signins coming from an IP in London — someone trying to guess her password over and over. A few minutes later there was a successful sign in from a completely different IP address. It got worse. Straight after that, there was another successful logon from the United States. That’s obviously impossible travel.
 
-**[Insert Image Risky Signons]**
+![Incidents Screenshot](Images/Sign-In-Logs.PNG) 
 
 Now that I knew the attacker had logged on successfully with Jenny’s real credentials, the next question was basically: **how did they get her password in the first place?**
 
