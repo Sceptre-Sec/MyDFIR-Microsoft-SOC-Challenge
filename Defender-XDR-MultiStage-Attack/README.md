@@ -59,7 +59,7 @@ There was a bunch of failed signins coming from an IP in London — someone tryi
 
 ![Incidents Screenshot](Images/Sign-In-Logs.PNG) 
 
-Now that I knew the attacker had logged on successfully with Jenny’s real credentials but how did they get her password in the first place?**
+Now that I knew the attacker had logged on successfully with Jenny’s real credentials but how did they get her password in the first place?
 
 As phishing is a common way for attackers to harvest credentials I wanted to have a look at Jenny Smiths email.
 
