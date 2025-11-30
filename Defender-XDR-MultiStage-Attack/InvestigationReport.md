@@ -1,5 +1,7 @@
-Investigation Report
-Summary
+![SceptreSecurity](Images/sceptresecurity.png) 
+
+# Investigation Report
+## Summary
 
 On 2025-11-25 14:26:38 UTC, Microsoft Defender XDR detected suspicious activity on Jenny Smith’s device including recon commands, unrestricted execution policy and a process to dump LSASS in an attempt to steal credentials.
 
@@ -11,14 +13,14 @@ Because LSASS dumping was observed, lateral movement was suspected. On Bob Smith
 
 The final exfiltration step was not visible in defender but it is reasonable to conclude the sensitive data was successfully exfiltrated.
 
-WHO
+## WHO
 First Victim: Jenny Smith
 Second Victim: Bob Smith
 Attacker: UK/USA Locations. IP Address: 51.89.232.10, 51.195.242.230, 51.81.245.239
 Hosts Involved: mydfir-sceptre- (initial compromise), mydfir-sceptre2
  (lateral movement & file exfiltration)
 
-WHAT
+## WHAT
 Jenny’s Microsoft 365 credentials were stolen via phishing.
 Attacker logged into her account from two countries (impossible travel).
 Recon, PowerShell execution and an LSASS dump attempt were performed.
@@ -26,7 +28,7 @@ Lateral Movement to Bob’s device and accessed IT-Admin-Notes.txt.
 A copy (export.txt) was created in Windows\Temp.
 Data was encoded in Base64 and exfiltrated.
 
-WHEN 
+## WHEN 
 2025-11-25
 Phishing email clicked: 12:51 UTC
 Failed sign-in attempts: 13:50 UTC
@@ -37,14 +39,14 @@ LSASS dump attempt: 14:26 UTC
 File accessed + copied on Bob-VM: 16:18 UTC
 Exfiltration: 16:21 UTC
 
-WHERE
+## WHERE
 Identity: Jenny Entra ID sign-in logs
 Endpoints: Jenny’s and Bob’s Windows 11 Machines 
 
-WHY
+## WHY
 Jenny entered her password into a phishing website allowing the attacker to authenticate as Jenny. The attacker used the stolen credentials to explore the environment, steal more credentials and extract a sensitive file.
 
-HOW
+## HOW
 The attacker used:
 Phishing 
 Remote Login
@@ -53,7 +55,7 @@ Lateral movement
 Accessed Sensitive Files
 Base64 encoding for exfiltration
 
-Indicators of Compromise (IoCs)
+## Indicators of Compromise (IoCs)
 Emails / Domains
 Sender: misterfinancelondon@outlook.com
 Phishing site: MisterFinanceLondon.com
@@ -70,7 +72,7 @@ whoami, hostname
 powershell -ExecutionPolicy Unrestricted
 rundll32.exe comsvcs.dll MiniDump
 
-Recommendations
+## Recommendations
 Enable MFA for all users to prevent credential theft abuse.
 Phishing protection (Defender for Office 365, SafeLinks, SafeAttachments).
 Harden endpoints by restricting PowerShell policies and enabling LSASS protection.
