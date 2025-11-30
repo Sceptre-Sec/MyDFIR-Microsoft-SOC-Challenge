@@ -85,35 +85,20 @@ This file has been copied to:
 
 `export.txt` in `C:\Windows\Temp`
 
-### Look for Timeline: This will reveal
-
-FileRead: C:\Users\BobSmith\Documents\IT-Admin-Notes.txt
-FileCreated: C:\Windows\Temp\export.txt
-FileModified: C:\Windows\Temp\export.txt
-
-
-- “FileAccessed” events  
-- “FileCreated” events  
-- “FileRead” events  
-- PowerShell commands  
-- export.txt creation  
-- File copy operations  
-
-**[Insert File Created Events]**
+![Incidents Screenshot](Images/Bob-File-Change.PNG)   
 
 ---
 
 ## What happened after the file was copied?
 
-After spotting the file being copied into `C:\Windows\Temp`, I checked Bob’s Device Timeline to see what happened next.
+Once I saw the file copied into C:\Windows\Temp, I checked Bob’s Device Timeline to see what the attacker did next. 
 
-I noticed PowerShell running again with **ExecutionPolicy Unrestricted**, which stood out straight away.
+Defender didn’t show the exact Base64 command but it did show PowerShell alerts Deobfuscate/Decode Files or Information on Bob’s machine.
 
-When I opened the command details, I saw references to **“Base64String”**, which told me the attacker wasn’t just copying the file — they were actually encoding it in Base64 to prepare it for exfiltration.
+This tells me the attacker was preparing the file for exfiltration, even if the base64 encode is not visible. Because maybe the attacker used the browser and copy/paste which is not tracked by Defender.
 
-Defender XDR didn’t show the actual moment the file left Bob’s machine because clipboard copy/paste exfiltration isn't visible in the telemetry. However, the timeline clearly showed all the preparation steps so based on this activity, it’s reasonable to conclude the attacker successfully exfiltrated the data.
+![Incidents Screenshot](Images/Deobfuscate.PNG)     
 
-**[Insert base64string here]**
 
 ---
 
@@ -123,6 +108,7 @@ One thing I learnt is that Defender XDR doesn’t always stitch every part of an
 
 Because of that, you really do need to do some manual digging to understand the full story.
 
-After I’d worked out what happened on Jenny and Bob’s machines, I checked everything with **KQL** to make sure my findings were correct. You can see my KQL hunting for this investigation here or you can jump straight into my full investigation report.
+After I’d worked out what happened on Jenny and Bob’s machines, I checked everything with KQL to make sure my findings were correct. You can see my KQL hunting for this investigation [here](./advanced-hunting-queries.md)
+ or you can jump straight into my full investigation report.
 
 ---
