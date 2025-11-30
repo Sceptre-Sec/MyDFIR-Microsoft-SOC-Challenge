@@ -1,6 +1,6 @@
-# 🛡️ Defender XDR Investigation Write-Up
+![SceptreSecurity](Images/sceptresecurity.png) 
 
-## What I did in this investigation with Defender XDR
+# Defender XDR Investigation Write-Up
 
 Before diving into the screenshots and alerts, here’s a quick breakdown of the techniques I carried out in this simulation. First with my red hat on to run the attack and then with my blue hat on to investigate with Defender XDR.
 
@@ -27,15 +27,15 @@ My attack Kill chain has created a couple of incidents, one of them has a priori
 
 ## Suspicious Process Discovery
 
-I started with the first alert, Suspicious Process Discovery. When I checked the Incident Graph, the Process Tree and the the Incident Timeline, I could see that something unusual happened on Jenny’s device on **25/11/25 14:26:38 UTC**.
+I started with the first alert, Suspicious Process Discovery. When I checked the Incident Graph, the Process Tree and the the Incident Timeline, I could see that something unusual happened on Jenny’s device on 25/11/25 14:26:38 UTC.
 
-The alert showed that `cmd.exe` launched PowerShell and PowerShell was run with an **Unrestricted execution policy**, which is already a red flag.
+The alert showed that `cmd.exe` launched PowerShell and PowerShell was run with an Unrestricted execution policy, which is already a red flag.
 
 The commands Defender showed was:
 
 whoami, hostname , powershell -ExecutionPolicy Unrestricted -File script6.ps1, Get-Process
 
-Seeing **whoami** and **hostname** told me the attacker was doing basic recon and checking out their environment.
+Seeing whoami and hostname told me the attacker was doing basic recon and checking out their environment.
 
  ![Incidents Screenshot](Images/Suspicious-Process-Discovery.PNG)
 
@@ -43,7 +43,7 @@ Seeing **whoami** and **hostname** told me the attacker was doing basic recon an
 
 ## Process Memory Dump
 
-The next Alert I look at was Process Memory Dump. When I checked the Timeline around **25/11/25 14:26:56 (PID 10416)**, it showed that something on Jenny’s machine tried to dump the LSASS process.
+The next Alert I look at was Process Memory Dump. When I checked the Timeline around 25/11/25 14:26:56, it showed that something on Jenny’s machine tried to dump the LSASS process.
 
 LSASS stores all the logged in passwords and tokens, so dumping it usually means someone is trying to steal credentials.
 
@@ -53,13 +53,13 @@ LSASS stores all the logged in passwords and tokens, so dumping it usually means
 
 ## How did the attacker get into Jenny's machine?
 
-I needed to check how the attacker actually got in so I went into **Entra ID** and looked at the sign in logs for Jenny.
+I needed to check how the attacker actually got in so I went into Entra ID and looked at the sign in logs for Jenny.
 
 There was a bunch of failed signins coming from an IP in London — someone trying to guess her password over and over. A few minutes later there was a successful sign in from a completely different IP address. It got worse. Straight after that, there was another successful logon from the United States. That’s obviously impossible travel.
 
 ![Incidents Screenshot](Images/Sign-In-Logs.PNG) 
 
-Now that I knew the attacker had logged on successfully with Jenny’s real credentials, the next question was basically: **how did they get her password in the first place?**
+Now that I knew the attacker had logged on successfully with Jenny’s real credentials but how did they get her password in the first place?**
 
 As phishing is a common way for attackers to harvest credentials I wanted to have a look at Jenny Smiths email.
 
