@@ -109,6 +109,6 @@ One thing I learnt is that Defender XDR doesn’t always stitch every part of an
 Because of that, you really do need to do some manual digging to understand the full story.
 
 After I’d worked out what happened on Jenny and Bob’s machines, I checked everything with KQL to make sure my findings were correct. You can see my KQL hunting for this investigation [here](./advanced-hunting-queries.md)
- or you can jump straight into my full investigation report.
+ or you can jump straight into my full [investigation report](./InvestigationReport.md)
 
 ---
